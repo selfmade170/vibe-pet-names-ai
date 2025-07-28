@@ -1,0 +1,66 @@
+# ----- Ячейка 3: Создание HTML-файла -----
+%%writefile templates/index.html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibePetNames AI (Colab)</title>
+    <!-- Важно: путь к CSS теперь другой, Flask будет его обслуживать из папки static -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>VibePetNames AI</h1>
+        <p>Подберем имя для кота с помощью магии нейросетей.</p>
+    </header>
+
+    <main>
+        <section>
+            <form id="preferences-form">
+                <fieldset>
+                    <legend>Пол питомца</legend>
+                    <label><input type="radio" name="gender" value="male" checked> Кот</label>
+                    <label><input type="radio" name="gender" value="female"> Кошка</label>
+                    <label><input type="radio" name="gender" value="unisex"> Унисекс</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Какой у него характер?</legend>
+                    <label><input type="checkbox" name="character" value="игривый"> Игривый</label>
+                    <label><input type="checkbox" name="character" value="спокойный"> Спокойный</label>
+                    <label><input type="checkbox" name="character" value="нежный"> Нежный</label>
+                    <label><input type="checkbox" name="character" value="королевский"> Королевский</label>
+                    <label><input type="checkbox" name="character" value="загадочный"> Загадочный</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Стиль имени</legend>
+                    <label><input type="radio" name="style" value="современное" checked> Современное</label>
+                    <label><input type="radio" name="style" value="классическое"> Классическое</label>
+                    <label><input type="radio" name="style" value="экзотическое"> Экзотическое</label>
+                    <label><input type="radio" name="style" value="мифологическое"> Мифологическое</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Ключевые слова или ассоциации</legend>
+                    <input type="text" id="keywords" placeholder="например, космос, еда, киберпанк...">
+                </fieldset>
+                <button type="submit" id="generate-button">Найти Имена! ✨</button>
+            </form>
+        </section>
+        <section id="results-section">
+            <h2>Предложенные Имена:</h2>
+            <div id="names-list"></div>
+            <h2>Избранные имена:</h2>
+            <ul id="favorite-names-list"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>© Vibe Coder & Gem-Bot (Colab Edition), 2025</p>
+    </footer>
+    <!-- Путь к JS тоже изменился -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
