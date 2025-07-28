@@ -1,7 +1,8 @@
 import os
 import json
 import google.generativeai as genai
-from flask import Flask, request, jsonify, render_template, send_from_directory
+# ВОТ ИСПРАВЛЕНИЕ: Мы вернули send_from_directory в импорт
+from flask import Flask, request, jsonify, render_template, send_from_directory 
 from flask_cors import CORS
 
 # Создаем Flask-приложение
@@ -33,7 +34,6 @@ def send_static(path):
 # API-эндпоинт для генерации имен
 @app.route('/generate-names', methods=['POST'])
 def generate_names_api():
-    # Блок try с правильными отступами
     try:
         data = request.get_json()
         prompt = data.get('prompt')
@@ -45,7 +45,6 @@ def generate_names_api():
         names_array = json.loads(cleaned_text)
         
         return jsonify({'names': names_array})
-    # Блок except с правильными отступами
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
