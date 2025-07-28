@@ -1,6 +1,3 @@
-# ----- Ячейка 5: Создание JavaScript-файла -----
-%%writefile static/js/script.js
-// Вставьте сюда ВЕСЬ код JS (версия с AI), но с одним изменением в fetch
 document.addEventListener('DOMContentLoaded', () => {
     const preferencesForm = document.getElementById('preferences-form');
     const generateButton = document.getElementById('generate-button');
