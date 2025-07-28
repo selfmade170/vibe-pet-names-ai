@@ -1,14 +1,21 @@
 import os
 import json
 import google.generativeai as genai
-# Убедитесь, что send_from_directory добавлен в импорт
-from flask import Flask, request, jsonify, render_template, send_from_directory 
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 
-# ... (остальной код до маршрутов) ...
+# Создаем Flask-приложение
 app = Flask(__name__)
-# ...
+CORS(app) 
+
+# --- Настройка ---
+API_KEY = os.environ.get('API_KEY')
+if not API_KEY:
+    raise ValueError("Секретный ключ API_KEY не найден в переменных окружения.")
+
 genai.configure(api_key=API_KEY)
+
+# --- Настройка модели Gemini ---
 model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
 # --- Маршруты (Routes) ---
@@ -18,22 +25,31 @@ model = genai.GenerativeModel('gemini-1.5-flash-latest')
 def index():
     return render_template('index.html')
 
-# !!! НОВЫЙ БЛОК КОДА, КОТОРЫЙ ВСЕ ИСПРАВИТ !!!
-# Этот маршрут будет ловить запросы типа /static/css/style.css
-# и правильно отдавать файлы из папки static
+# Маршрут для обслуживания статических файлов (CSS, JS)
 @app.route('/static/<path:path>')
 def send_static(path):
     return send_from_directory('static', path)
-
+    
 # API-эндпоинт для генерации имен
 @app.route('/generate-names', methods=['POST'])
 def generate_names_api():
-    # ... (код этого блока не меняется) ...
+    # Блок try с правильными отступами
     try:
-        # ...
+        data = request.get_json()
+        prompt = data.get('prompt')
+        if not prompt:
+            return jsonify({'error': 'Промпт не был предоставлен'}), 400
+        
+        response = model.generate_content(prompt)
+        cleaned_text = response.text.strip().replace('```json', '').replace('```', '').strip()
+        names_array = json.loads(cleaned_text)
+        
+        return jsonify({'names': names_array})
+    # Блок except с правильными отступами
     except Exception as e:
-        # ...
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
 
-# Эта часть больше не нужна на сервере, но пусть остается, не мешает
+# Эта часть нужна для локального тестирования
 if __name__ == '__main__':
     app.run(debug=True)
